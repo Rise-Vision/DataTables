@@ -3562,7 +3562,8 @@
 			.append(
 				$(_div, { 'class': classes.sScrollHead } )
 					.css( {
-						overflow: 'hidden',
+						// Donna
+						//overflow: 'hidden',
 						position: 'relative',
 						border: 0,
 						width: scrollX ? size(scrollX) : '100%'
@@ -3587,7 +3588,9 @@
 			.append(
 				$(_div, { 'class': classes.sScrollBody } )
 					.css( {
-						overflow: 'auto',
+						// Donna
+						// overflow: 'auto',
+						overflow: 'hidden',
 						height: size( scrollY ),
 						width: size( scrollX )
 					} )
@@ -3808,7 +3811,9 @@
 		// Read all widths in next pass
 		_fnApplyToChildren( function(nSizer) {
 			headerContent.push( nSizer.innerHTML );
-			headerWidths.push( _fnStringToCss( $(nSizer).css('width') ) );
+			// Donna
+			// headerWidths.push( _fnStringToCss( $(nSizer).css('width') ) );
+			headerWidths.push( _fnStringToCss( $(nSizer).outerWidth() ) );
 		}, headerSrcEls );
 	
 		// Apply all widths in final pass
@@ -3905,22 +3910,29 @@
 			}
 		}
 	
-		if ( scrollY && scroll.bCollapse ) {
-			divBodyStyle.height = _fnStringToCss( scrollY );
-	
-			var iExtra = (scrollX && tableEl.offsetWidth > divBodyEl.offsetWidth) ?
-				barWidth :
-				0;
-	
-			if ( tableEl.offsetHeight < divBodyEl.offsetHeight ) {
-				divBodyStyle.height = _fnStringToCss( tableEl.offsetHeight+iExtra );
-			}
-		}
+		//Donna - Removed this.
+		// if ( scrollY && scroll.bCollapse ) {
+		// 	divBodyStyle.height = _fnStringToCss( scrollY );
+		// 
+		// 	var iExtra = (scrollX && tableEl.offsetWidth > divBodyEl.offsetWidth) ?
+		// 		barWidth :
+		// 		0;
+		// 
+		// 	if ( tableEl.offsetHeight < divBodyEl.offsetHeight ) {
+		// 		divBodyStyle.height = _fnStringToCss( tableEl.offsetHeight+iExtra );
+		// 	}
+		// }
 	
 		/* Finally set the width's of the header and footer tables */
 		var iOuterWidth = table.outerWidth();
-		divHeaderTable[0].style.width = _fnStringToCss( iOuterWidth );
-		divHeaderInnerStyle.width = _fnStringToCss( iOuterWidth );
+		
+		//Donna Start - Responsive design.
+		// divHeaderTable[0].style.width = _fnStringToCss( iOuterWidth );
+		// divHeaderInnerStyle.width = _fnStringToCss( iOuterWidth );
+		
+		divHeaderTable[0].style.width = "100%";
+		divHeaderInnerStyle.width = "100%";
+		//Donna End
 	
 		// Figure out if there are scrollbar present - if so then we need a the header and footer to
 		// provide a bit more space to allow "overflow" scrolling (i.e. past the scrollbar)
@@ -4100,7 +4112,7 @@
 			}
 	
 			// Take into account the y scrollbar
-			_fnScrollingWidthAdjust( oSettings, tmpTable[0] );
+			// _fnScrollingWidthAdjust( oSettings, tmpTable[0] );		//Donna - No scrollbar is shown in Gadgets that use this plugin.
 	
 			// Browsers need a bit of a hand when a width is assigned to any columns
 			// when x-scrolling as they tend to collapse the table to the min-width,
@@ -4127,7 +4139,8 @@
 			// Get the width of each column in the constructed table
 			for ( i=0 ; i<visibleColumns.length ; i++ ) {
 				column = columns[ visibleColumns[i] ];
-				width = $(headerCells[i]).width();
+				// width = $(headerCells[i]).width();
+				width = $(headerCells[i]).outerWidth();		//Donna - Responsive design
 	
 				if ( width ) {
 					column.sWidth = _fnStringToCss( width );
